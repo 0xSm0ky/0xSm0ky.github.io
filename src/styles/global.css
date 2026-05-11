@@ -9,8 +9,8 @@
   --bg-elev: #14171c;
   --fg: #e6e8ec;
   --fg-muted: #8b929c;
-  --accent: #7ee787;
-  --accent-dim: #3fb950;
+  --accent: #b794f4;
+  --accent-dim: #8b5cf6;
   --border: #20242b;
   --max-width: 720px;
 
@@ -157,15 +157,6 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
 }
 .site-header__nav a:hover { color: var(--fg); }
 
-/* ── Footer ───────────────────────────── */
-.site-footer {
-  border-top: 1px solid var(--border);
-  color: var(--fg-muted);
-  font-size: 0.85rem;
-  padding: 1.5rem 1.25rem;
-  text-align: center;
-}
-
 /* ── Post card / list ─────────────────── */
 .post-list {
   list-style: none;
@@ -223,19 +214,6 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
   display: none;
 }
 
-/* ── Tag badge ────────────────────────── */
-.tag {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--fg-muted);
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  padding: 0.1rem 0.5rem;
-  border-radius: 4px;
-  border-bottom: 1px solid var(--border);
-}
-.tag:hover { color: var(--accent); border-color: var(--accent-dim); }
-
 .lang-badge {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -259,4 +237,7 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
   align-items: center;
 }
 article[data-lang='ar'] { direction: rtl; text-align: right; font-family: var(--font-arabic); }
-article[data-lang='ar'] .post-header__meta { direction: ltr; }
+article[data-lang='en'] { direction: ltr; text-align: left; font-family: var(--font-sans); }
+article[data-lang='ar'] .post-header__meta,
+article[data-lang='en'] .post-header__meta { direction: ltr; }
+article[data-lang='en'] .post-header__meta { justify-content: flex-start; }

@@ -1,15 +1,12 @@
 ---
-import TagBadge from './TagBadge.astro';
-
 interface Props {
   slug: string;
   title: string;
   description?: string;
   date: Date;
   lang: 'en' | 'ar';
-  tags: string[];
 }
-const { slug, title, description, date, lang, tags } = Astro.props;
+const { slug, title, description, date, lang } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const dateStr = date.toISOString().slice(0, 10);
 ---
@@ -17,7 +14,6 @@ const dateStr = date.toISOString().slice(0, 10);
   <div class="post-card__meta">
     <span>{dateStr}</span>
     <span class="lang-badge">{lang}</span>
-    {tags.slice(0, 3).map((t) => <TagBadge tag={t} />)}
   </div>
   <h2 class="post-card__title">
     <a href={`${base}/blog/${slug}/`}>{title}</a>

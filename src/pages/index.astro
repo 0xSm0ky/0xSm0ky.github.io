@@ -7,9 +7,9 @@ import LangFilter from '../components/LangFilter.astro';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
-<BaseLayout title="~/blog" description="programming, cyber-security, side quests.">
+<BaseLayout title="~/blog" description="مدوّنة عن البرمجة والأمن السيبراني.">
   <h1>~/blog</h1>
-  <p class="muted">Notes on programming, cyber-security, and the occasional side quest. Posts in English and Arabic.</p>
+  <p class="muted">ملاحظات في البرمجة والأمن السيبراني، وبعض المغامرات الجانبية. التدوينات بالعربية والإنجليزية.</p>
   <LangFilter />
   <ul class="post-list">
     {posts.map((p) => (
@@ -19,7 +19,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
         description={p.data.description}
         date={p.data.date}
         lang={p.data.lang}
-        tags={p.data.tags}
       />
     ))}
   </ul>
