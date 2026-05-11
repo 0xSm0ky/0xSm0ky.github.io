@@ -1,0 +1,16 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const nav = [
+  { href: `${base}/`, label: 'home' },
+  { href: `${base}/about/`, label: 'about' },
+  { href: `${base}/rss.xml`, label: 'rss' },
+];
+---
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href={`${base}/`} class="site-header__brand">~/blog</a>
+    <nav class="site-header__nav">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+  </div>
+</header>

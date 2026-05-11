@@ -1,0 +1,6 @@
+---
+interface Props { tag: string; }
+const { tag } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<a class="tag" href={`${base}/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>

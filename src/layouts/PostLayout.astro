@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TagBadge from '../components/TagBadge.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  updated?: Date;
+  lang: 'en' | 'ar';
+  tags: string[];
+}
+const { title, description, date, updated, lang, tags } = Astro.props;
+const dateStr = date.toISOString().slice(0, 10);
+const updatedStr = updated ? updated.toISOString().slice(0, 10) : null;
+---
+<BaseLayout title={title} description={description} lang={lang}>
+  <article data-lang={lang}>
+    <header class="post-header">
+      <h1>{title}</h1>
+      <div class="post-header__meta">
+        <span>{dateStr}</span>
+        {updatedStr && <span>(updated {updatedStr})</span>}
+        <span class="lang-badge">{lang}</span>
+        {tags.map((t) => <TagBadge tag={t} />)}
+      </div>
+    </header>
+    <slot />
+  </article>
+</BaseLayout>
