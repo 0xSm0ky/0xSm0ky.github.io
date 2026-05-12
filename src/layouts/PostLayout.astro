@@ -19,7 +19,6 @@ const updatedStr = updated ? updated.toISOString().slice(0, 10) : null;
       <div class="post-header__meta">
         <span>{dateStr}</span>
         {updatedStr && <span>{lang === 'ar' ? `(تحديث ${updatedStr})` : `(updated ${updatedStr})`}</span>}
-        <span class="lang-badge">{lang}</span>
       </div>
     </header>
     <slot />
