@@ -23,7 +23,6 @@ npm run preview   # serve dist/ locally
    title: "Your title"
    description: "Optional one-liner."
    date: 2026-05-11
-   tags: [security, notes]
    lang: en        # or 'ar' for Arabic (auto-RTL)
    draft: false    # set true to hide
    ---
@@ -45,8 +44,8 @@ In the GitHub repo: **Settings → Pages → Build and deployment → Source: Gi
 src/
 ├── content/blog/     # ← markdown posts (Obsidian vault)
 ├── layouts/          # BaseLayout, PostLayout
-├── components/       # Header, PostCard, LangFilter, TagBadge
-├── pages/            # index, blog/[slug], tags/[tag], about, rss.xml
+├── components/       # Header, PostCard, LangFilter
+├── pages/            # index, blog/[slug], about, rss.xml
 └── styles/global.css # dark theme + RTL
 .github/workflows/deploy.yml   # GitHub Pages deploy
 reference/            # untouched reference projects (not deployed)

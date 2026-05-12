@@ -2,7 +2,6 @@
 title: "Hello, world — booting the blog"
 description: "First post. Notes on what this place is and how it gets built."
 date: 2026-05-11
-tags: [meta, intro]
 lang: en
 ---
 
