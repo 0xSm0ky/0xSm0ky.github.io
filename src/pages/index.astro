@@ -6,9 +6,9 @@ import PostCard from '../components/PostCard.astro';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
-<BaseLayout title="~/blog" description="مدوّنة عن البرمجة والأمن السيبراني.">
+<BaseLayout title="~/blog" description="A blog about programming and cybersecurity.">
   <h1>~/blog</h1>
-  <p class="muted">ملاحظات في البرمجة والأمن السيبراني، وبعض المغامرات الجانبية. التدوينات بالعربية والإنجليزية.</p>
+  <p class="muted">Notes on programming and cybersecurity, plus the occasional side quest.</p>
   <ul class="post-list">
     {posts.map((p) => (
       <PostCard
