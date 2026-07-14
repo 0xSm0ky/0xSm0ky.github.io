@@ -1,7 +1,7 @@
 ---
 title: "Chaining a jQuery Prototype Pollution Bug with DOM XSS to Steal CSRF Tokens"
 description: "How a legacy jQuery 3.2.1 dependency led to a CVSS 9.3 vulnerability chain: CVE-2019-11358 prototype pollution combined with a DOM-based XSS quirk in <option> parsing, chained to exfiltrate CSRF tokens and session cookies from an admin login page."
-date: 2026-03-06
+date: 2026-07-14
 lang: en
 draft: false
 ---
