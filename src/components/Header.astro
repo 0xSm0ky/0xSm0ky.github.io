@@ -3,6 +3,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const nav = [
   { href: `${base}/`, label: 'Home' },
   { href: `${base}/about/`, label: 'About' },
+  { href: `${base}/tags/`, label: 'Tags' },
   { href: `${base}/rss.xml`, label: 'RSS' },
 ];
 ---
@@ -11,6 +12,108 @@ const nav = [
     <a href={`${base}/`} class="site-header__brand">~/blog</a>
     <nav class="site-header__nav">
       {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <button id="search-toggle" class="site-header__search-btn" aria-expanded="false" aria-controls="search-panel">
+        Search
+      </button>
     </nav>
   </div>
+  <div id="search-panel" class="search-panel" hidden>
+    <div class="search-panel__inner">
+      <div id="header-search"></div>
+    </div>
+  </div>
 </header>
+
+<link href={`${base}/pagefind/pagefind-ui.css`} rel="stylesheet" />
+<script is:inline define:vars={{ base }}>
+  window.__pagefindBase = base;
+</script>
+<script is:inline>
+  (function () {
+    const toggle = document.getElementById('search-toggle');
+    const panel = document.getElementById('search-panel');
+    let initialized = false;
+
+    function openPanel() {
+      panel.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+      if (!initialized) {
+        initialized = true;
+        const script = document.createElement('script');
+        script.src = `${window.__pagefindBase}/pagefind/pagefind-ui.js`;
+        script.onload = () => {
+          if (typeof PagefindUI !== 'undefined') {
+            new PagefindUI({ element: '#header-search', showSubResults: true });
+            const input = panel.querySelector('input');
+            if (input) input.focus();
+          }
+        };
+        script.onerror = () => {
+          panel.querySelector('#header-search').textContent =
+            'Search is only available on the built site (run npm run build), not in the dev server.';
+        };
+        document.body.appendChild(script);
+      } else {
+        const input = panel.querySelector('input');
+        if (input) input.focus();
+      }
+    }
+
+    function closePanel() {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', () => {
+      panel.hidden ? openPanel() : closePanel();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) closePanel();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle) {
+        closePanel();
+      }
+    });
+  })();
+</script>
+
+<style>
+  .site-header__search-btn {
+    background: none;
+    border: none;
+    color: var(--fg-muted);
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  .site-header__search-btn:hover,
+  .site-header__search-btn[aria-expanded='true'] {
+    color: var(--fg);
+  }
+  .search-panel {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-elev);
+  }
+  .search-panel__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem 1.25rem 1.5rem;
+  }
+  #header-search {
+    --pagefind-ui-primary: #e6e8ec;
+    --pagefind-ui-text: #e6e8ec;
+    --pagefind-ui-background: #14171c;
+    --pagefind-ui-border: #20242b;
+    --pagefind-ui-tag: #20242b;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 6px;
+    --pagefind-ui-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  #header-search :global(.pagefind-ui__result-link) {
+    color: #b794f4;
+  }
+</style>

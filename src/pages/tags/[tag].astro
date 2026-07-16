@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { tagSlug } from '../../lib/tags';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  const byTagSlug = new Map();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const slug = tagSlug(tag);
+      if (!byTagSlug.has(slug)) byTagSlug.set(slug, { tag, posts: [] });
+      byTagSlug.get(slug).posts.push(post);
+    }
+  }
+
+  return [...byTagSlug.entries()].map(([slug, { tag, posts }]) => ({
+    params: { tag: slug },
+    props: {
+      tag,
+      posts: posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+<BaseLayout title={`#${tag} — ~/blog`} description={`Posts tagged ${tag}.`}>
+  <h1>#{tag}</h1>
+  <ul class="post-list">
+    {posts.map((p) => (
+      <PostCard
+        slug={p.slug}
+        title={p.data.title}
+        description={p.data.description}
+        date={p.data.date}
+        lang={p.data.lang}
+        tags={p.data.tags}
+      />
+    ))}
+  </ul>
+</BaseLayout>

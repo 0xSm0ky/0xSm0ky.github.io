@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tagSlug } from '../../lib/tags';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+const counts = new Map();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<BaseLayout title="Tags — ~/blog" description="Browse posts by tag.">
+  <h1>Tags</h1>
+  {tags.length === 0 ? (
+    <p class="muted">No tags yet.</p>
+  ) : (
+    <ul class="tag-list tag-list--big">
+      {tags.map(([tag, count]) => (
+        <li>
+          <a class="tag-chip" href={`${base}/tags/${tagSlug(tag)}/`}>
+            {tag} <span class="tag-chip__count">{count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
