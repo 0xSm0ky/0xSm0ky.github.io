@@ -1,12 +1,15 @@
 ---
+import { tagSlug } from '../lib/tags';
+
 interface Props {
   slug: string;
   title: string;
   description?: string;
   date: Date;
   lang: 'en' | 'ar';
+  tags?: string[];
 }
-const { slug, title, description, date, lang } = Astro.props;
+const { slug, title, description, date, lang, tags = [] } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const dateStr = date.toISOString().slice(0, 10);
 ---
@@ -18,4 +21,11 @@ const dateStr = date.toISOString().slice(0, 10);
     <a href={`${base}/blog/${slug}/`}>{title}</a>
   </h2>
   {description && <p class="post-card__desc">{description}</p>}
+  {tags.length > 0 && (
+    <ul class="tag-list">
+      {tags.map((tag) => (
+        <li><a class="tag-chip" href={`${base}/tags/${tagSlug(tag)}/`}>{tag}</a></li>
+      ))}
+    </ul>
+  )}
 </li>

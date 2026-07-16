@@ -1,16 +1,26 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { tagSlug } from '../lib/tags';
 
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 interface Props {
   title: string;
   description?: string;
   date: Date;
   updated?: Date;
   lang: 'en' | 'ar';
+  headings?: Heading[];
+  tags?: string[];
 }
-const { title, description, date, updated, lang } = Astro.props;
+const { title, description, date, updated, lang, headings = [], tags = [] } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const dateStr = date.toISOString().slice(0, 10);
 const updatedStr = updated ? updated.toISOString().slice(0, 10) : null;
+const toc = headings.filter((h) => h.depth <= 4);
 ---
 <BaseLayout title={title} description={description}>
   <article data-lang={lang}>
@@ -20,7 +30,26 @@ const updatedStr = updated ? updated.toISOString().slice(0, 10) : null;
         <span>{dateStr}</span>
         {updatedStr && <span>{lang === 'ar' ? `(تحديث ${updatedStr})` : `(updated ${updatedStr})`}</span>}
       </div>
+      {tags.length > 0 && (
+        <ul class="tag-list">
+          {tags.map((tag) => (
+            <li><a class="tag-chip" href={`${base}/tags/${tagSlug(tag)}/`}>{tag}</a></li>
+          ))}
+        </ul>
+      )}
     </header>
+    {toc.length > 0 && (
+      <nav class="post-toc" aria-label={lang === 'ar' ? 'المحتويات' : 'Table of contents'}>
+        <p class="post-toc__title">{lang === 'ar' ? 'المحتويات' : 'Contents'}</p>
+        <ul>
+          {toc.map((h) => (
+            <li class={`post-toc__item post-toc__item--${h.depth}`}>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
     <slot />
   </article>
 </BaseLayout>
