@@ -72,7 +72,9 @@ const nav = [
       if (e.key === 'Escape' && !panel.hidden) closePanel();
     });
 
-    document.addEventListener('click', (e) => {
+    // Use pointerdown (fires before Pagefind re-renders results on click, so
+    // in-panel targets like "Load more results" aren't seen as detached/outside).
+    document.addEventListener('pointerdown', (e) => {
       if (!panel.hidden && !panel.contains(e.target) && e.target !== toggle) {
         closePanel();
       }

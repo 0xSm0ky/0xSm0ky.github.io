@@ -1,8 +1,10 @@
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/jetbrains-mono/400.css';
-@import '@fontsource/ibm-plex-sans-arabic/400.css';
-@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/inter/latin-400.css';
+@import '@fontsource/inter/latin-600.css';
+@import '@fontsource/jetbrains-mono/latin-400.css';
+@import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
+@import '@fontsource/ibm-plex-sans-arabic/latin-400.css';
+@import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
+@import '@fontsource/ibm-plex-sans-arabic/latin-600.css';
 
 :root {
   --bg: #0b0d10;
@@ -134,7 +136,8 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
 }
 .site-header__brand {
   font-family: var(--font-mono);
@@ -148,6 +151,8 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
 }
 .site-header__nav {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 1.25rem;
   font-size: 0.95rem;
 }
@@ -157,16 +162,52 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
 }
 .site-header__nav a:hover { color: var(--fg); }
 
+/* Header on small screens: stack brand over the nav, let nav items wrap. */
+@media (max-width: 560px) {
+  .site-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 1rem 1.25rem;
+  }
+  .site-header__nav {
+    width: 100%;
+    gap: 0.9rem 1.1rem;
+    font-size: 0.9rem;
+  }
+}
+
 /* ── Post card / list ─────────────────── */
 .post-list {
   list-style: none;
   padding: 0;
   margin: 1.5rem 0;
+  display: grid;
+  /* Fluid columns within the shared reading width: 2 per row on desktop,
+     collapsing to 1 when the viewport (or zoom) narrows. */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
 }
 .post-card {
-  padding: 1.1rem 0;
-  border-bottom: 1px solid var(--border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #1b2027;
+  transition: border-color 0.15s;
 }
+.post-card:hover { border-color: var(--accent); }
+.post-card .tag-list { margin-top: auto; }
+/* Whole card is a link: the title anchor stretches to cover the tile. */
+.post-card__title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+/* Keep tag links clickable above the stretched overlay. */
+.post-card .tag-chip { position: relative; z-index: 1; }
 .post-card__meta {
   display: flex;
   gap: 0.75rem;
