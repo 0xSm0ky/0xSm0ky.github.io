@@ -27,5 +27,13 @@ const rssHref = `${base}/rss.xml`;
     <main data-pagefind-body>
       <slot />
     </main>
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        data-goatcounter="https://0xsm0ky.goatcounter.com/count"
+        async
+        src="//gc.zgo.at/count.js"
+      ></script>
+    )}
   </body>
 </html>
