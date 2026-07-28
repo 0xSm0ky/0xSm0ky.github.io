@@ -8,14 +8,16 @@ interface Props {
   date: Date;
   lang: 'en' | 'ar';
   tags?: string[];
+  pinned?: boolean;
 }
-const { slug, title, description, date, lang, tags = [] } = Astro.props;
+const { slug, title, description, date, lang, tags = [], pinned = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const dateStr = date.toISOString().slice(0, 10);
 ---
 <li class="post-card" data-lang={lang}>
   <div class="post-card__meta">
     <span>{dateStr}</span>
+    {pinned && <span class="post-card__pin">📌 Pinned</span>}
   </div>
   <h2 class="post-card__title">
     <a href={`${base}/blog/${slug}/`}>{title}</a>

@@ -217,6 +217,7 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
   margin-bottom: 0.35rem;
   align-items: center;
 }
+.post-card__pin { color: var(--accent); font-family: var(--font-mono); font-size: 0.78rem; }
 .post-card__title {
   margin: 0.1em 0 0.3em;
   font-size: 1.2rem;
@@ -283,6 +284,9 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
 .post-toc__item--4 { padding-inline-start: 2em; }
 article[data-lang='ar'] .post-toc__item--3 { padding-inline-start: 0; padding-inline-end: 1em; }
 article[data-lang='ar'] .post-toc__item--4 { padding-inline-start: 0; padding-inline-end: 2em; }
+/* TOC title uses the mono (Latin-only) font; switch to the Arabic font on
+   Arabic posts so "المحتويات" matches the rest of the post. */
+article[data-lang='ar'] .post-toc__title { font-family: var(--font-arabic); text-transform: none; }
 
 /* ── Post page ────────────────────────── */
 .post-header { margin-bottom: 2rem; }
