@@ -40,7 +40,7 @@ Debug pages of that kind include a panel for the application environment. Sittin
 
 ```
 DB_USERNAME=api
-DB_PASSWORD=<redacted>   # a short keyboard-pattern password
+DB_PASSWORD=qwER1234
 ```
 
 The `DB_USERNAME` / `DB_PASSWORD` naming is the standard `.env` convention used by Laravel and other PHP frameworks, which is exactly the file that is supposed to never leave the server. The whole point of moving secrets out of source code and into an environment file is that the file stays on the box. A debug handler that prints the environment reverses that decision in a single HTTP response.
