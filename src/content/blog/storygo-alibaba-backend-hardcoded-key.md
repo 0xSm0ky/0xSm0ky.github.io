@@ -4,7 +4,7 @@ description: A random IP in a Google result led to the Alibaba-Cloud backend of 
 date: 2026-08-08
 lang: en
 draft: false
-tags: ["mobile-pentest", "apk", "recon", "secrets", "information-disclosure"]
+tags: ["mobile", "recon", "secrets", "disclosure", "en"]
 ---
 
 It started with a single IP address in a Google search result. I was looking up an Android app's permissions, landed on an indexed page pointing at `47.115.9.59`, and noticed two things: it's in an **Alibaba Cloud** range, and it was answering on several ports. Pulling that thread led to the backend of two Play Store apps, a pile of internet-facing admin tooling, and — the part that matters — a **long-term Alibaba Cloud credential baked straight into the app**, which a live traffic capture proved is still valid and in active use.

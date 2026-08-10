@@ -4,7 +4,7 @@ description: "A password-reset page on Shamela's development host answered an in
 date: 2026-08-09
 lang: en
 draft: false
-tags: ["information-disclosure", "responsible-disclosure", "secrets"]
+tags: ["disclosure", "secrets", "en"]
 ---
 
 Early in 2025 I spent an evening poking at [Shamela](https://shamela.ws) (المكتبة الشاملة), the huge Arabic Islamic-text library. It is the kind of site that is quietly load-bearing for a whole field: students, researchers, and app developers all pull from it. Sites like that tend to grow features faster than they grow security review, so I went looking at the edges rather than the front door.

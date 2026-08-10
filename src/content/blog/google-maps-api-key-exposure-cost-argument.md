@@ -4,7 +4,7 @@ description: A bug bounty report on a hardcoded, unrestricted Google Maps API ke
 date: 2026-07-14
 lang: en
 draft: false
-tags: ["bug-bounty", "information-disclosure", "api-security"]
+tags: ["bounty", "disclosure", "api", "en"]
 ---
 
 Not every valid finding survives triage on the first pass. This is a short writeup of a report that got marked **Not Applicable**, and the case I made back, with real precedent, for why it shouldn't have been.

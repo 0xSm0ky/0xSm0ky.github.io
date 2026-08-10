@@ -4,7 +4,7 @@ description: "How a legacy jQuery 3.2.1 dependency led to a CVSS 9.3 vulnerabili
 date: 2026-07-14
 lang: en
 draft: false
-tags: ["bug-bounty", "xss", "prototype-pollution"]
+tags: ["bounty", "xss", "prototype-pollution", "en"]
 ---
 
 Old dependencies rarely die quietly, they just wait for someone to check the version string. This is a walkthrough of a bug bounty submission where a five-year-old jQuery vulnerability turned out to still be live in production, and how it chained with a second, less obvious DOM XSS quirk into a full CSRF-token-and-cookie exfiltration.
