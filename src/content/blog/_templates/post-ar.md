@@ -4,7 +4,7 @@ description: ""
 date: {{date:YYYY-MM-DD}}
 lang: ar
 draft: true
-tags: ["ar"]
+tags: []
 ---
 
 فقرة افتتاحية. جملة أو اثنتان توضحان موضوع التدوينة.

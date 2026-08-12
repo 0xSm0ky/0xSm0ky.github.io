@@ -4,7 +4,8 @@ description: مجموعة من أفكار المشاريع التقنية، مط
 date: 2026-07-27
 lang: ar
 draft: false
-tags: ["idea", "ar"]
+pinned: true
+tags: ["idea"]
 ---
 مجموعة من أفكار المشاريع التقنية، مطروحة للاطلاع والبناء عليها بحرية (بغض النظر عن جدواها الإقتصادية)، كل فكرة مصحوبة بنبذة موجزة، وبمصادر أو مراجع للاستزادة حيثما توفّرت.
 
@@ -26,10 +27,10 @@ tags: ["idea", "ar"]
 
 ---
 
-[^kjellin]: منهج Olle Kjellin في تدريب النطق بالترديد — <https://www.chorusing.com/tips.php>
-[^chorusing]: تنفيذ مبدئي مفتوح المصدر للترديد — <https://github.com/0xSm0ky/the-chorusing-lab>
-[^ksaa]: التقنيات في تعليم العربية، مكتبة مجمع الملك سلمان العالمي للغة العربية — <https://library.ksaa.gov.sa/index/view/267>
-[^tafrigh]: tafrigh لتفريغ المحتوى العربي آليًا — <https://github.com/ieasybooks/tafrigh>
-[^kym]: Know Your Meme، النموذج العالمي لتوثيق الميمات — <https://knowyourmeme.com>
-[^camel]: CAMeL Tools، لبنات مفتوحة المصدر لمعالجة اللغة العربية آليًا — <https://github.com/CAMeL-Lab/camel_tools>
-[^brob]: قائمة أفكار Will Rob — <https://brob.town/ideas>
+[^kjellin]: منهج Olle Kjellin في تدريب النطق بالترديد - <https://www.chorusing.com/tips.php>
+[^chorusing]: تنفيذ مبدئي مفتوح المصدر للترديد - <https://github.com/0xSm0ky/the-chorusing-lab>
+[^ksaa]: التقنيات في تعليم العربية، مكتبة مجمع الملك سلمان العالمي للغة العربية - <https://library.ksaa.gov.sa/index/view/267>
+[^tafrigh]: tafrigh لتفريغ المحتوى العربي آليًا - <https://github.com/ieasybooks/tafrigh>
+[^kym]: Know Your Meme، النموذج العالمي لتوثيق الميمات - <https://knowyourmeme.com>
+[^camel]: CAMeL Tools، لبنات مفتوحة المصدر لمعالجة اللغة العربية آليًا - <https://github.com/CAMeL-Lab/camel_tools>
+[^brob]: قائمة أفكار Will Rob - <https://brob.town/ideas>

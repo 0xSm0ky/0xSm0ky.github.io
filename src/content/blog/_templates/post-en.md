@@ -4,7 +4,7 @@ description: ""
 date: {{date:YYYY-MM-DD}}
 lang: en
 draft: true
-tags: ["en"]
+tags: []
 ---
 
 Intro paragraph here. One or two sentences that explain what this post is.

@@ -17,7 +17,7 @@ const dateStr = date.toISOString().slice(0, 10);
 <li class="post-card" data-lang={lang}>
   <div class="post-card__meta">
     <span>{dateStr}</span>
-    {pinned && <span class="post-card__pin">📌 Pinned</span>}
+    {pinned && <span class="post-card__pin">📌 {lang === 'ar' ? 'مثبت' : 'Pinned'}</span>}
   </div>
   <h2 class="post-card__title">
     <a href={`${base}/blog/${slug}/`}>{title}</a>

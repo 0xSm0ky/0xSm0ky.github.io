@@ -4,7 +4,7 @@ description: "A staging environment left Laravel debug mode on, leaking full sta
 date: 2026-07-16
 lang: en
 draft: false
-tags: ["bounty", "disclosure", "en"]
+tags: ["bounty", "disclosure"]
 ---
 
 Not every report closes the way the technical severity suggests it should. This is a writeup of a Laravel debug page finding that got marked **Not Applicable**, despite leaking a link to a private source repository.

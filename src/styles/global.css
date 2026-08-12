@@ -305,3 +305,7 @@ article[data-lang='en'] { direction: ltr; text-align: left; font-family: var(--f
 article[data-lang='ar'] .post-header__meta,
 article[data-lang='en'] .post-header__meta { direction: ltr; }
 article[data-lang='en'] .post-header__meta { justify-content: flex-start; }
+
+/* ── Footnotes ────────────────────────── */
+.footnotes a { overflow-wrap: anywhere; }
+.footnotes li { margin: 0.6em 0; }
