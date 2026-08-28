@@ -10,19 +10,20 @@ interface Heading {
 interface Props {
   title: string;
   description?: string;
+  image?: string;
   date: Date;
   updated?: Date;
   lang: 'en' | 'ar';
   headings?: Heading[];
   tags?: string[];
 }
-const { title, description, date, updated, lang, headings = [], tags = [] } = Astro.props;
+const { title, description, image, date, updated, lang, headings = [], tags = [] } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const dateStr = date.toISOString().slice(0, 10);
 const updatedStr = updated ? updated.toISOString().slice(0, 10) : null;
 const toc = headings.filter((h) => h.depth <= 4);
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} image={image} type="article">
   <article data-lang={lang}>
     <header class="post-header">
       <h1>{title}</h1>

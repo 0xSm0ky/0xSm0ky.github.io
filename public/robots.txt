@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://0xSm0ky.github.io/sitemap-index.xml

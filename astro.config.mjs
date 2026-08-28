@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import { visit } from 'unist-util-visit';
 
 // Opens off-site links in a new tab. Internal links and footnote anchors stay in-place.
@@ -19,7 +20,7 @@ function rehypeExternalLinks() {
 export default defineConfig({
   site: 'https://0xSm0ky.github.io',
   prefetch: { prefetchAll: true },
-  integrations: [mdx()],
+  integrations: [mdx(), sitemap()],
   build: { inlineStylesheets: 'always' },
   markdown: {
     shikiConfig: {
