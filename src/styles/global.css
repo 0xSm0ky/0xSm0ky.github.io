@@ -172,6 +172,7 @@ img { max-width: 100%; height: auto; border-radius: 6px; }
   border-bottom: none;
 }
 .site-header__nav a:hover { color: var(--fg); }
+.site-header__nav a.is-active { color: var(--accent); font-weight: 400; }
 
 /* Header on small screens: stack brand over the nav, let nav items wrap. */
 @media (max-width: 560px) {

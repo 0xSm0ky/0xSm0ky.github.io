@@ -6,12 +6,22 @@ const nav = [
   { href: `${base}/tags/`, label: 'Tags' },
   { href: `${base}/rss.xml`, label: 'RSS' },
 ];
+
+const currentPath = Astro.url.pathname;
+function isActive(href: string) {
+  if (href === `${base}/`) return currentPath === href;
+  return currentPath === href || currentPath.startsWith(href);
+}
 ---
 <header class="site-header">
   <div class="site-header__inner">
     <a href={`${base}/`} class="site-header__brand">~/blog</a>
     <nav class="site-header__nav">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      {nav.map((item) => (
+        <a href={item.href} class={isActive(item.href) ? 'is-active' : ''} aria-current={isActive(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
       <button id="search-toggle" class="site-header__search-btn" aria-expanded="false" aria-controls="search-panel">
         Search
       </button>
