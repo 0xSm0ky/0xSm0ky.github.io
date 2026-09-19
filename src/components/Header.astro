@@ -106,16 +106,16 @@ const nav = [
     padding: 1rem 1.25rem 1.5rem;
   }
   #header-search {
-    --pagefind-ui-primary: #e6e8ec;
-    --pagefind-ui-text: #e6e8ec;
-    --pagefind-ui-background: #14171c;
-    --pagefind-ui-border: #20242b;
-    --pagefind-ui-tag: #20242b;
+    --pagefind-ui-primary: var(--fg);
+    --pagefind-ui-text: var(--fg);
+    --pagefind-ui-background: var(--bg-elev);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: var(--border);
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-border-radius: 6px;
     --pagefind-ui-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
   #header-search :global(.pagefind-ui__result-link) {
-    color: #b794f4;
+    color: var(--accent-dim);
   }
 </style>

@@ -24,7 +24,7 @@ export default defineConfig({
   build: { inlineStylesheets: 'always' },
   markdown: {
     shikiConfig: {
-      theme: 'github-dark-dimmed',
+      theme: 'github-light',
       wrap: true,
     },
     remarkRehype: {
