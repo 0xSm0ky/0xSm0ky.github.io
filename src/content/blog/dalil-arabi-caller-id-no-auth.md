@@ -7,9 +7,7 @@ draft: false
 tags: ["mobile", "recon", "privacy"]
 ---
 
-Some findings you prove by firing a request and watching the server hand over something it shouldn't. Others you find by reading the app and realising the server was never asked to say no. Dalil Arabi (`com.dalilarabi.sa`, a caller-ID/directory app, backends `kashefar.com` and `arabias.reviews`) is the second kind. Grepping its decompiled network code for anything resembling authentication - `Authorization`, `Bearer`, `X-Api-Key`, `token`, an HMAC, a signature - returns nothing. Every call is an anonymous form POST or GET.
-
-This is a static teardown. Nothing here was fired at the live server, and I'll be clear throughout about where the line between "the code says" and "the server does" sits. But the code says a lot.
+Some findings you prove by firing a request and watching the server hand over something it shouldn't. Others you find by reading the app and realising the server was never asked to say no. Dalil Arabi (`com.dalilarabi.sa`, a caller-ID/directory app, backends redacted) is the second kind. Grepping its decompiled network code for anything resembling authentication - `Authorization`, `Bearer`, `X-Api-Key`, `token`, an HMAC, a signature - returns nothing. Every call is an anonymous form POST or GET.
 
 ## TL;DR
 
@@ -28,7 +26,7 @@ When there's no server-side identity, "who is allowed to do this" has to be answ
 ## F1 - Anonymous reverse phone lookup
 
 ```
-GET https://www.kashefar.com:7703/android/notes.php?phone=<number>&s=1
+GET https://<REDACTED_HOST>/android/notes.php?phone=<number>&s=1
 ```
 
 No `user_id`, no auth header on this call. The constant `notes.php?phone=` and its `&s=1`/`&s=2` modes are right there in the decompiled network class. For a caller-ID app, the value being returned is exactly the sensitive part: the labels and identity notes other users have attached to a number. If this answers anonymously - and there's nothing in the code that would stop it - then it's a reverse-lookup and enumeration primitive over the whole directory.
@@ -38,7 +36,7 @@ No `user_id`, no auth header on this call. The constant `notes.php?phone=` and i
 ## F2 - Delete an arbitrary note
 
 ```
-POST https://www.kashefar.com:7703/android/delete_note.php
+POST https://<REDACTED_HOST>/android/delete_note.php
 params: note_id, phone      ← no user_id, no identity of any kind
 ```
 
@@ -49,7 +47,7 @@ The tell here is architectural. Alongside `delete_note.php` ("my note") the app 
 ## F3 - Edit an arbitrary note
 
 ```
-POST https://www.kashefar.com:7703/android/edit_note.php
+POST https://<REDACTED_HOST>/android/edit_note.php
 params: user_id (from prefs, default ""), note_id, note, phone
 ```
 
@@ -69,4 +67,4 @@ I didn't fire any of these at the live server. The backends serve real users' PI
 
 ## Takeaway
 
-The bug class here isn't any single endpoint; it's an architecture that put authentication nowhere and then split "mine" and "not mine" into two client-chosen code paths. Reading the app tells you what it's *built to allow*; only a request tells you what the server *actually enforces*. I'm comfortable publishing the first as a teardown and refusing to claim the second until an owned-data baseline earns it. When there's no auth layer in the client, the interesting question is always the same - does the server have one the client just isn't using, or is there no "no" anywhere in the system?
+The bug class here isn't any single endpoint; it's an architecture that put authentication nowhere and then split "mine" and "not mine" into two client-chosen code paths. When there's no auth layer in the client, the interesting question is always the same - does the server have one the client just isn't using, or is there no "no" anywhere in the system?

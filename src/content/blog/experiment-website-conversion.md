@@ -22,7 +22,7 @@ A couple of ideas worth keeping in mind:
 - Sheena Iyengar's research (*The Art of Choosing*) shows that too much choice can paralyze decision-making rather than help it.
 - Robert Cialdini's six principles of persuasion (*Influence*): **scarcity**, **social proof**, **liking**, **authority**, **commitment/consistency**, and **reciprocation**.
 
-Optimizing UX is the easy part; understanding persuasion is what actually uncovers why people buy. No design is neutral, and every design choice is a trade-off; you can't test everything, so be deliberate about which experiments are worth running. Be brave enough to fail, and treat a losing challenger as a lesson rather than a setback.
+Optimizing UX is the easy part; understanding persuasion is what actually uncovers why people buy. No design is neutral, and every design choice is a trade-off. Be brave enough to fail, and treat a losing challenger as a lesson rather than a setback.
 
 ## On Approach
 
@@ -39,7 +39,7 @@ A few operating principles:
 - Don't let old wins become sacred cows. If it ain't broke, break it: either you learn something new, or you gain more confidence in what you already have.
 - You can always undo a "winning" experiment by reverse-testing it against the old control.
 
-Making experimentation a way of life means thinking, every day, about what you can test, how to do it better, and why something passed or failed, and never letting your tools, processes, or team get in the way of that habit. Every experiment is just a new starting point; it's never finished.
+Making experimentation a way of life means thinking, every day, about what you can test, how to do it better, and why something passed or failed, and never letting your tools, processes, or team get in the way of that habit.
 
 ## On Method
 
@@ -84,7 +84,6 @@ Keep a knowledge base of experiment data, results, and learnings: future ideas o
 
 Eventually you'll hit a point where the current experience feels "optimized" and wins get harder to find. That's the line between **optimization** (improving what exists) and **innovation** (trying something genuinely new that data alone can't validate). When you want to innovate, following hunches matters: as Steve Jobs put it, creativity is just connecting things, and the more you experiment, the more raw material you have to connect.
 
-Write ideas down. Build a running collection of results, discoveries, and half-formed thoughts; an idea that didn't make sense on its own often clicks once it's connected to something new.
 
 ## On Analysis
 
@@ -100,7 +99,7 @@ Write ideas down. Build a running collection of results, discoveries, and half-f
 - "No difference" means *worse*: ship only winners.
 - An unexpected positive result is worth testing again to confirm.
 - Sometimes you'll have to release a small negative for the sake of a bigger win elsewhere.
-- Take advantage of the iterative nature of experimentation: start planning the next wave immediately, and reuse code, assets, and learnings wherever you can.
+- Reuse code, assets, and learnings wherever you can.
 - Share and promote experiment results *internally* to build engagement and maturity. But think carefully before sharing them externally. Your experiment results are one of your most valuable competitive assets.
 
 ## Recommended Reading

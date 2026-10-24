@@ -65,11 +65,7 @@ The report was reopened to **New** after that, then closed as **Not Applicable**
 
 ## Why this matters more broadly
 
-A visible debug page is easy to wave off as "just an error message," but the actual question is the same one that applies to any information disclosure report: **what does the leaked information let an attacker do that they couldn't do before?** Here, that list wasn't hypothetical:
-
-- The exact framework and language version, which narrows a CVE search to a specific target instead of a guess.
-- Real file paths and internal logic, which shortcuts the reconnaissance phase of an actual attack.
-- A link into a private source repository, which is a confidentiality breach on its own, independent of anything else on the page.
+A visible debug page is easy to wave off as "just an error message," but the actual question is the same one that applies to any information disclosure report: **what does the leaked information let an attacker do that they couldn't do before?** The Impact section above is the answer in this case.
 
 Debug pages get dismissed a lot because most of them really are noise, a stack trace with nothing sensitive in it. The distinguishing factor is whether the page leaks something that was supposed to be private, a version string is trivia, but a link to a private repo and commit history is a different category entirely.
 

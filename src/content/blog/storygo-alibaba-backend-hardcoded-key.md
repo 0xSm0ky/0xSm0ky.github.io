@@ -52,11 +52,11 @@ The app's own analytics reporter (`OasisReporter`) constructs an Alibaba SLS log
 endpoint        : https://ap-southeast-1.log.aliyuncs.com   // Alibaba Cloud SLS, Singapore
 project         : novel-app-tracking
 logstore        : storygo-app-tracking-prod
-accessKeyId     : LTAI5tDN4fCYFGTxXp6YQxUN   // "LTAI…" = a long-term Alibaba Cloud AccessKey
-accessKeySecret : nnjZbbVptTemolBObqTTZsVjvtw9hT
+accessKeyId     : REDACTED   // "LTAI…" = a long-term Alibaba Cloud AccessKey
+accessKeySecret : REDACTED
 ```
 
-An `LTAI…` key is a *long-term* credential, not a short-lived STS token. Anyone who downloads the APK can extract it. Best case it's tightly scoped to write into one log store — which still allows forged telemetry, cost inflation, and potential log-data exposure for every user. Worst case, if it's over-privileged (a common mistake), the blast radius is much larger. Either way, client-side SLS ingestion is supposed to use short-lived STS tokens minted server-side, never a baked-in permanent key.
+An `LTAI…` key is a *long-term* credential, not a short-lived STS token. Anyone who downloads the APK can extract it. Best case it's tightly scoped to write into one log store — which still allows forged telemetry, cost inflation, and potential log-data exposure for every user. Worst case, if it's over-privileged (a common mistake), the blast radius is much larger.
 
 Other notes: the app sets `android:usesCleartextTraffic="true"` (plaintext HTTP allowed), and requests a broad permission set for a reading app — `ACCESS_FINE_LOCATION`, `READ_PHONE_STATE`, `CAMERA`, calendar, and media — consistent with an ad/attribution-heavy model.
 
@@ -70,13 +70,13 @@ Static analysis tells you what an app *can* do; a proxy shows what it *actually*
 
 ```
 POST https://novel-app-tracking.ap-southeast-1.log.aliyuncs.com/logstores/storygo-app-tracking-prod/shards/lb
-Authorization: LOG LTAI5tD…REDACTED:…REDACTED…
+Authorization: LOG REDACTED:REDACTED
 x-log-signaturemethod: hmac-sha1
 content-type: application/x-protobuf   (lz4-compressed)
 → 200 OK   server: AliyunSLS
 ```
 
-That upgrades the finding from "a credential is hardcoded" to "the credential is **valid and used from every install**." (I observed only the app's own traffic — I never used the key.)
+That upgrades the finding from "a credential is hardcoded" to "the credential is **valid and used from every install**."
 
 **The main API, proven from headers to be Alibaba-fronted.** The app calls `POST https://wup.storygo.cc/tup` (an OkHttp client). During capture the origin was unhealthy and returned `502 Bad Gateway`, but the error headers are diagnostic:
 
@@ -95,13 +95,9 @@ appBundleId=com.storygo.novel;sysVer=android/9;device=samsung/SM-N975F
 
 Alongside it, AppsFlyer, Facebook Graph, Firebase Analytics/Crashlytics, and FCM registration all fired — the dual telemetry stack, confirmed at runtime.
 
-## What it all adds up to
-
-A random IP in a search result turned out to be the operator's Alibaba-Cloud footprint (`zrole.com`) behind the StoryGo/StoryPro apps. The apps are the overseas edition of a Chinese product, wired to Alibaba and Tencent components, and one of those wires carries a **hardcoded cloud credential that is still valid**. The more actionable issue than "which country hosts it" is that leaked key, plus the broad, admin-heavy surface on the backend host.
-
 ## Ethics and disclosure
 
-Everything here is passive recon and analysis of a self-downloaded app. No login was attempted against GitLab/ZenTao/Adminer; the leaked key was never used against Alibaba Cloud (its validity was confirmed only from the app's own request); no data was read from or written to the operator's systems. The responsible sequence for a finding like this is: report the hardcoded key to the vendor and the cloud provider, give them time to rotate and revoke it, and keep the *working secret* out of any public writeup while it's still live — which is the one value masked here. Once the key is rotated it's inert, and there's no reason not to publish it in full.
+Everything here is passive recon and analysis of a self-downloaded app. No login was attempted against GitLab/ZenTao/Adminer; the leaked key was never used against Alibaba Cloud (its validity was confirmed only from the app's own request); no data was read from or written to the operator's systems.
 
 ## Takeaway
 

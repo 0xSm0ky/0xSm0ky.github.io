@@ -41,7 +41,7 @@ I followed up with the actual cost math, since that's the part most reports in t
 
 > "I forgot to mention that for every 1000 requests for this link with api key its cost the company 5$"
 
-An unrestricted key on a metered API isn't a theoretical issue it's a direct line to the target's Google Cloud bill. At $5 per 1,000 Geocoding requests, a trivial script run overnight can rack up real, unauthorized charges with zero effort and zero access controls in the way.
+At $5 per 1,000 Geocoding requests, a trivial script run overnight can rack up real, unauthorized charges with zero effort and zero access controls in the way.
 
 I also pointed to precedent, this exact class of bug has been accepted and paid out elsewhere, and there's a well-known writeup on the pattern:
 
@@ -54,7 +54,6 @@ I also pointed to precedent, this exact class of bug has been accepted and paid 
 The lesson here isn't "I was right and they were wrong", the report may well stay closed, and that's the triager's call to make. The actual lesson is about *how* to argue impact on this bug class, because "found an API key" reports get dismissed constantly, often correctly:
 
 - **A restricted key** (locked to a package name/cert, or to a free, uncapped API) genuinely often *is* Not Applicable. Don't skip checking restrictions before reporting.
-- **An unrestricted key on a metered API** has a direct, quantifiable cost, and that number is the entire argument. "Impact" doesn't have to mean data breach; a predictable per-request dollar cost is impact.
 - **If the same key gates a business-critical Maps feature** (ride tracking, hotel search, live location), the story gets worse than billing, it becomes availability risk for the actual product.
 - Citing prior accepted reports for the same bug class isn't just padding, it shows the program precedent already exists for taking this seriously, which is often the deciding factor in a second look.
 

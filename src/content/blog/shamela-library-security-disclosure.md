@@ -13,18 +13,17 @@ The edge that answered was a development host, and the thing it handed over was 
 
 ## TL;DR
 
-- The password-reset flow on `dev.shamela.ws` did not handle an invalid email address.
+- The password-reset flow on the development host did not handle an invalid email address.
 - Instead of rejecting it cleanly, it threw an unhandled error inside the email-validation library and rendered an interactive debug page.
 - That page printed environment configuration, including `DB_USERNAME` and `DB_PASSWORD`, to an unauthenticated visitor.
 - The leaked password was a short keyboard-pattern string, so the disclosure and the credential were each a failure on their own.
-- No authentication, no special headers, no tooling. One form submission in a browser.
 
 ## The finding
 
 The password-reset page on the development host:
 
 ```
-https://dev.shamela.ws/password/reset
+https://<REDACTED_DEV_HOST>/password/reset
 ```
 
 Submitting a malformed email address should produce one boring outcome: a validation message saying the address is not valid. This flow produced something else. The string tripped a bug inside the framework's email-validation library, the exception went uncaught, and the debug handler rendered its full diagnostic page instead:
@@ -34,18 +33,18 @@ ErrorException (E_NOTICE): Trying to access array offset on value of type null
 .../vendor/egulias/email-validator/EmailValidator/Parser/Parser.php:147
 ```
 
-That trace gives the stack away on sight, `egulias/email-validator` is a Laravel dependency and the handler is Laravel's, running with debug output left on. The same page also printed the absolute server path it was all sitting under, `/var/www/vhosts/shamela.ws/dev.shamela.ws/dev/`.
+That trace gives the stack away on sight, `egulias/email-validator` is a Laravel dependency and the handler is Laravel's, running with debug output left on. The same page also printed the absolute server path it was all sitting under, `<REDACTED_PATH>`.
 
 Debug pages of that kind include a panel for the application environment. Sitting in it, in plain text:
 
 ```
-DB_USERNAME=api
-DB_PASSWORD=qwER1234
+DB_USERNAME=REDACTED
+DB_PASSWORD=REDACTED
 ```
 
 The `DB_USERNAME` / `DB_PASSWORD` naming is the standard `.env` convention used by Laravel and other PHP frameworks, which is exactly the file that is supposed to never leave the server. The whole point of moving secrets out of source code and into an environment file is that the file stays on the box. A debug handler that prints the environment reverses that decision in a single HTTP response.
 
-I am holding the actual password back here. It follows the pattern that anyone who has run a password audit will recognize instantly, four letters alternating case, then `1234`, and describing it is enough to make the point without publishing a working credential.
+I am holding the actual credentials back here. The password was weak and human-chosen, which is a failure on its own, but publishing a working credential would add nothing to the point.
 
 ## Why a password-reset page, specifically
 
@@ -59,7 +58,6 @@ The usual defense of a debug page is that it only leaks trivia: framework versio
 
 - **Direct data access.** A database username and password is not a hint about the attack surface, it *is* the attack surface. If the database port is reachable from anywhere the credentials can be replayed from, the disclosure is the entire compromise.
 - **Credential reuse.** A weak, human-chosen password on a dev database is rarely unique to that database. The same string tends to reappear on staging, on an admin panel, or on a service account somewhere else.
-- **Trivially guessable regardless.** A password of that shape falls to an offline crack or a small online spray in seconds. Even without the leak it was a weak credential. The leak just removed the need to guess.
 - **Everything a normal debug page leaks, on top.** Framework and language versions for narrowing a CVE search, real file paths for traversal and file-inclusion attempts, and internal logic from the trace.
 
 ## Takeaway

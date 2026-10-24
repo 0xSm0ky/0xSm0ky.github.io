@@ -19,7 +19,6 @@ NumberBook (نمبر بوك السعودية) is a Saudi caller-ID app: install 
 - Live traffic capture found the real backend: a single PHP endpoint that does both reverse phone lookup and contact-list upload, gated by **nothing**. No auth header, no cookie, no API key, no device token.
 - There is **no rate limiting**. Twenty rapid-fire lookups in a row all returned `200 OK`. Saudi mobile numbers are a small, fully walkable space, so "no throttle" quietly means "the entire dataset is downloadable."
 - The response looks encrypted (base64, high entropy, no recognizable header), and it is, technically, AES-encrypted. But the key and IV are hardcoded strings baked into the app itself, so every install already carries the means to decrypt every response. That's obfuscation wearing encryption's clothes.
-- Contact upload is accepted from anyone too, meaning the same lack of authentication that lets you read the database also lets you write to it.
 
 ## Part 1: static analysis hits a wall
 
@@ -40,7 +39,7 @@ Static analysis tells you what an app *can* do. A proxy tells you what it *does*
 No certificate pinning. Every request decrypted cleanly, and the real backend showed up immediately:
 
 ```
-POST https://snumberbook.com/android-api.php
+POST https://<REDACTED_HOST>/android-api.php
 User-Agent: android
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 
@@ -52,7 +51,7 @@ That's the entire request. No `Authorization` header. No cookie. No API key, dev
 The same endpoint doubles as the contact-upload sink:
 
 ```
-POST https://snumberbook.com/android-api.php
+POST https://<REDACTED_HOST>/android-api.php
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 
 contacts=<base64 JSON array of {displayName, phones[]}>
@@ -74,16 +73,14 @@ I already had one plaintext/ciphertext pair to work with: one of those unreadabl
 
 With that key and IV in hand, every lookup response decrypts into a small, consistent JSON object: `{"result": [ ...list of name strings... ]}`, one array holding every label anyone has ever attached to that number in the crowd-sourced database. I confirmed this against a junk placeholder number, the kind people register their number as before giving it away, and got back a genuinely funny list of joke labels other users had saved it under. I did not run this against anyone's real, private phone number. There was no need to: the mechanism is proven either way, and the app's own users already receive this exact decrypted output on every real lookup they make.
 
-The same Remote Config decrypt run also surfaced a second backend host I hadn't seen in traffic yet, `dlilcom.app`, handling contact uploads. Whether that's the same operator running two brands or a shared backend behind two apps, I didn't dig further. Worth noting for anyone reading this from the vendor side.
+The same Remote Config decrypt run also surfaced a second backend host I hadn't seen in traffic yet, `<REDACTED_HOST>`, handling contact uploads. Whether that's the same operator running two brands or a shared backend behind two apps, I didn't dig further. Worth noting for anyone reading this from the vendor side.
 
-I also wanted to confirm the decrypted data really is what the app works with at runtime, not just what my own script produces offline. On a rooted emulator, scanning the running app's own memory for a phone number I'd just looked up found it twice: once as the plain ASCII text of my outgoing request, and again as a UTF-16 string sitting inside the app's decrypted response object (UTF-16, because the record it belonged to carried an Arabic name). The cleartext record exists in the app's memory in the clear, which is exactly what you'd expect once you know the "encryption" is symmetric obfuscation with a key riding along in the same package.
+I also wanted to confirm the decrypted data really is what the app works with at runtime, not just what my own script produces offline. On a rooted emulator, scanning the running app's own memory for a phone number I'd just looked up found it twice: once as the plain ASCII text of my outgoing request, and again as a UTF-16 string sitting inside the app's decrypted response object (UTF-16, because the record it belonged to carried an Arabic name).
 
 ## Part 5: why "no auth, no rate limit" adds up to "the whole database"
 
 Each of these on its own reads like a checklist item. Together they compound:
 
-- **No authentication** means anyone, not just app users, can query the API directly.
-- **No rate limiting** means there's no cost to querying it a lot.
 - **A small, structured number space** (Saudi mobile numbers follow a fixed format with a known set of operator prefixes) means "a lot" is a tractable, finite number of requests, not an infinite haystack.
 - **The response format leaks presence even before decryption**: a registered number's response is roughly sixty times larger than an unregistered one's, so you can tell whether someone's in the database without even touching the key.
 
